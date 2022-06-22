@@ -3,7 +3,7 @@ fetch("http://localhost:3000/api/products")
     .then((data) => addProducts(data))
 // fetch des données pour les passer à la fonction addproduct
 
-// addproducts récupère les données demandées du premier élément, appelle la fonction makeanchor avec l'URL puis passe à appendChrildren
+// addproducts récupère les données demandées, appelle la fonction makeAnchor avec l'URL puis passe à appendChrildren
 function addProducts(canapes) {
 
     canapes.forEach((kanap) => { 
@@ -14,11 +14,10 @@ function addProducts(canapes) {
     //const name =  canapes[0].name
     //const description = canapes[0].description
 
-    const {_id, imageUrl, altTxt, name, description} = kanap
-    
+    const { _id, imageUrl, altTxt, name, description } = kanap
     const anchor = makeAnchor(_id)
     const article = document.createElement("article")
-    const image = makeImage(imageUrl, altTxt)
+    const image = makeImageDiv(imageUrl, altTxt)
     const h3 = makeH3(name)
     const p = makeParagraphe(description)
 
@@ -49,7 +48,7 @@ function appendArticleToAnchor(anchor, article){
     }
 }
 
-function makeImage(imageUrl, altTxt){
+function makeImageDiv(imageUrl, altTxt){
     const image = document.createElement("img")
     image.src = imageUrl
     image.alt = altTxt

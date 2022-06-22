@@ -1,6 +1,10 @@
 const queryString = window.location.search
 const urlParams = new URLSearchParams(queryString)
 const id = urlParams.get("id")
+if (id != null){
+    let itemPrice = 0
+    let imgUrl, altText, articleName
+}
 
 fetch(`http://localhost:3000/api/products/${id}`)
     .then((response) => response.json())
@@ -15,6 +19,10 @@ function handleData(kanap){
     //const price = kanap.price
     //const _id = kanap._id
     const { altTxt, colors, description, imageUrl, name, price } = kanap
+    itemPrice = price
+    imgUrl = imageUrl
+    altText = altTxt
+    articleName = name
     makeImage(imageUrl, altTxt)
     makeTitle(name)
     makePrice(price)
@@ -22,9 +30,9 @@ function handleData(kanap){
     makeColors(colors)
 }
 
-function makeImage(imageURL, altTxt){
+function makeImage(imageUrl, altTxt){
     const image = document.createElement("img")
-    image.src = imageURL
+    image.src = imageUrl
     image.alt = altTxt
     const parent = document.querySelector(".item__img")
     if (parent != null) parent.appendChild(image)
@@ -37,7 +45,7 @@ function makeTitle(name) {
 
 function makePrice(price){
     const span = document.querySelector("#price")
-    if (price != null) span.textContent = price
+    if (span != null) span.textContent = price
 }
 
 function makeDescription(description){
@@ -48,11 +56,54 @@ function makeDescription(description){
 function makeColors(colors){
     const select = document.querySelector("#colors")
     if (select != null){
-        colors.forEach((colors) => {
+        colors.forEach((color) => {
             const option = document.createElement("option")
-            option.textContent = colors
+            option.value = color
+            option.textContent = color
             select.appendChild(option)
               
         })
     }
 }
+
+const button = document.querySelector("#addToCart")
+button.addEventListener("click", handleClick)
+
+function handleClick(){
+    const color = document.querySelector("#colors").value
+    const quantity = document.querySelector("#quantity").value
+
+    if (isOrderInvalid(color, quantity)) return
+    saveOrder(color, quantity)
+    redirectToCart()
+}
+
+function saveOrder(color, quantity){// 
+    const key = `${id}-${color}`
+    const data = {
+        id: id,
+        color: color,
+        quantity: Number(quantity),
+        price: itemPrice,
+        imageUrl: imgUrl,
+        altTxt: altText, 
+        name: articleName
+    }
+    localStorage.setItem(key, JSON.stringify(data))
+}
+
+function isOrderInvalid(color, quantity){// si une seule de ces conditions est remplie, msg à l'utilisateur
+    if (color == null || color === "" || quantity == null || quantity == 0){
+        alert("Sélectionnez une couleur ou une quantité s'il vous plait")
+        return true
+    }
+}
+
+function redirectToCart(){
+    window.location.href = "cart.html"
+}
+
+
+
+
+
