@@ -11,13 +11,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
     .then((res) => handleData(res))
 
 function handleData(kanap){
-    //const altTxt = kanap.altTxt
-    //const colors = kanap.colors
-    //const description = kanap.description
-    //const imageUrl = kanap.imageUrl
-    //const name = kanap.name
-    //const price = kanap.price
-    //const _id = kanap._id
     const { altTxt, colors, description, imageUrl, name, price } = kanap
     itemPrice = price
     imgUrl = imageUrl

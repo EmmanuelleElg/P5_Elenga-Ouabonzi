@@ -1,19 +1,11 @@
 fetch("http://localhost:3000/api/products")
     .then((res) => res.json())
     .then((data) => addProducts(data))
-// fetch des données pour les passer à la fonction addproduct
+// fetch pour récupérer les données
 
-// addproducts récupère les données demandées, appelle la fonction makeAnchor avec l'URL puis passe à appendChrildren
+// addproducts ajoute les données demandées, appelle la fonction makeAnchor avec l'URL puis passe à appendChrildren
 function addProducts(canapes) {
-
     canapes.forEach((kanap) => { 
-
-    //const _id = canapes[0]._id
-    //const imageUrl = canapes[0].imageUrl
-    //const altTxt = canapes[0].altTxt
-    //const name =  canapes[0].name
-    //const description = canapes[0].description
-
     const { _id, imageUrl, altTxt, name, description } = kanap
     const anchor = makeAnchor(_id)
     const article = document.createElement("article")
