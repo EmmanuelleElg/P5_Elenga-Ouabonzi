@@ -6,6 +6,7 @@ cart.forEach((item) => displayItem(item))
 const orderButton = document.querySelector("#order")
 orderButton.addEventListener("click", (e) => submitForm(e))
 
+//fonction pour rajouter les produits au panier > on pourrait rajouter la condition pour ajouter la quantité
 function retrieveItemsFromCache() {
   const numberOfItems = localStorage.length
   for (let i = 0; i < numberOfItems; i++) {
@@ -79,6 +80,7 @@ function deleteItem(item) {
   deleteDataFromCache(item)
   deleteArticleFromPage(item)
 }
+
 function deleteArticleFromPage(item) {
   const articleToDelete = document.querySelector(
     `article[data-id="${item.id}"][data-color="${item.color}"]`
@@ -166,12 +168,13 @@ function makeImageDiv(item) {
 function submitForm(e) {
   e.preventDefault()
   if (cart.length === 0) {
-    alert("Please select items to buy")
+    alert("Ajouter des produits au panier pour commander")
     return
   }
 
   if (isFormInvalid()) return
   if (isEmailInvalid()) return
+  
 
   const body = makeRequestBody()
   fetch("http://localhost:3000/api/products/order", {
@@ -200,21 +203,21 @@ function isEmailInvalid() {
   const regex = /^[A-Za-z0-9+_.-]+@(.+)$/
   if (regex.test(email) === false) {
     alert("Please enter valid email")
-    return true
+  return true
   }
-  return false
+ return false
 }
 
 function isFormInvalid() {
   const form = document.querySelector(".cart__order__form")
   const inputs = form.querySelectorAll("input")
-  inputs.forEach((input) => {
-    if (input.value === "") {
-      alert("Please fill all the fields")
-      return true
-    }
-    return false
-  })
+ inputs.forEach((input) => {
+ if (input.value === "") {
+    alert("Please fill all the fields")    
+ return true
+ }
+ return false
+ })
 }
 
 function makeRequestBody() {

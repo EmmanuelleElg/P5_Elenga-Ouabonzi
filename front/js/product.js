@@ -74,16 +74,27 @@ function handleClick(){
 function saveOrder(color, quantity){// 
     const key = `${id}-${color}`
     const data = {
-        id: id,
-        color: color,
-        quantity: Number(quantity),
-        price: itemPrice,
-        imageUrl: imgUrl,
-        altTxt: altText, 
-        name: articleName
+      id: id,
+      color: color,
+      quantity: Number(quantity),
+      price: itemPrice,
+      imageUrl: imgUrl,
+      altTxt: altText, 
+      name: articleName
     }
     localStorage.setItem(key, JSON.stringify(data))
 }
+
+function oldQuantity(){
+    const key = `${kanap.id}-${kanap.color}`
+    const oldQuantity = localStorage.getItem(key).quantity
+    
+    kanap.quantity = Number(kanap.quantity) + Number(oldQuantity)
+    localStorage.setItem(key, kanap)
+    document.querySelector("...").value = kanap.quantity
+    
+}
+
 
 function isOrderInvalid(color, quantity){// si une seule de ces conditions est remplie, msg à l'utilisateur
     if (color == null || color === "" || quantity == null || quantity == 0){
